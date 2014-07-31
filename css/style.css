@@ -1,0 +1,18 @@
+
+h1 {
+    height: 80px;
+}
+
+.times {
+    font-size: 250%;
+    margin-left: 150px;
+}
+
+.page {
+    margin: 50px;
+}
+
+.output {
+    font-family: "courier"; 
+    margin: 50px;
+}
