@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    p
+        b Directions: 
+        | Draw a rectangle around each number by clicking and dragging with a mouse. 
+        | Each rectangle should contain exactly one number, and the
+        | area of the rectangle should be the number that it contains. 
+        | Rectangles must not overlap.
+    br
+    #game-board
+        canvas#canvas(height='500', width='400')
+        p.times
+    if level
+      script.
+        var level = !{JSON.stringify(level)};
+    script(type='text/javascript', src='../javascripts/main.js')

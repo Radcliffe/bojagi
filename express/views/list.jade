@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    h1.
+        User-created levels
+    table#tbl
+        tr
+            th Id
+            th Author
+            th Title
+            th Rows
+            th Columns
+        each level, i in levels
+            tr
+                td: a(href="/show/#{level._id}") #{level._id}
+                td= level.author
+                td= level.title
+                td= level.rows
+                td= level.cols

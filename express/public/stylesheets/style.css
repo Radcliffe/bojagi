@@ -1,0 +1,29 @@
+
+h1 {
+    height: 80px;
+}
+
+.times {
+    font-size: 250%;
+    margin-left: 150px;
+}
+
+.page {
+    margin: 50px;
+}
+
+#tbl td, #tbl th {
+    border: 1px solid #289a60;
+    padding: 3px 10px 3px 10px;
+}
+
+#tbl th {
+    font-size: 1.1em;
+    background-color: #289a60;
+    color: #ffffff;
+}
+
+#tbl tr.alt td {
+    color: #000000;
+    background-color: #EAF2D3;
+}

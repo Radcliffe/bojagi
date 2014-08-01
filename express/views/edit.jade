@@ -1,0 +1,25 @@
+extends layout
+
+block content
+      form
+      | Rows: &nbsp;
+      input#rows(placeholder='10', size='3')
+      | &nbsp; &nbsp; &nbsp; Columns: &nbsp;
+      input#cols(placeholder='10', size='3')
+      | &nbsp; &nbsp; &nbsp; Author: &nbsp;
+      input#author(placeholder='Anonymous', size='12')
+      | &nbsp; &nbsp; &nbsp; Title: &nbsp;
+      input#title(placeholder='No title', size='16')
+      br
+      p
+      | Click and drag to draw, then click inside the rectangle to move the label.
+      | Clicking on the label removes the rectangle.
+      br
+      br
+      #game-board
+        canvas#canvas(height='320', width='320')
+      button#save Save
+      button#clear Clear
+      p.times
+      
+      script(type='text/javascript', src='javascripts/edit.js')
