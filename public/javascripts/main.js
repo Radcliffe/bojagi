@@ -43,6 +43,9 @@ $(document).ready(function () {
             box.left = box.right = box.x = parseInt(box.x);
             box.top = box.bottom = box.y = parseInt(box.y);
             box.label = parseInt(box.label);
+            if (box.label == 1) {
+                box.set = true;
+            }
         }
     }
     
@@ -163,7 +166,9 @@ $(document).ready(function () {
             return lower;
         if (x >= upper)
             return upper;
-        return x;
+        if (x < upper)
+            return x;
+        
     }
     
     function between(x, lower, upper) {

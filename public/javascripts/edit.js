@@ -137,7 +137,9 @@ $(document).ready(function () {
             return lower;
         if (x >= upper)
             return upper;
-        return x;
+        if (x < upper)
+            return x;
+        return lower;
     }
     
     function between(x, lower, upper) {
@@ -215,6 +217,8 @@ $(document).ready(function () {
     
     $("#rows").change(function() {
         var newrows = parseInt($(this).val());
+        if (isNaN(newrows))
+            newrows = 10;
         if (newrows < rows) clip(newrows, cols);
         rows = newrows;
         canvas.setAttribute("height", rows * cellSize + 20);
@@ -223,6 +227,8 @@ $(document).ready(function () {
     
     $("#cols").change(function() {
         var newcols = parseInt($(this).val());
+        if (isNaN(newcols))
+            newcols = 10;
         if (newcols < cols) clip(rows, newcols);
         cols = newcols;
         canvas.setAttribute("width", cols * cellSize + 20);
@@ -243,12 +249,14 @@ $(document).ready(function () {
     });
     
     $("#save").click(function() {
-        var now = new Date();
-        $.post("/save", {rows: rows, cols: cols, boxes: boxes, 
-                         author: author, title: title, created: now});
-        boxes = [];
-        $(".times").text("Level saved");
-        $(".times").show();
+        if (boxes.length > 0) {
+            var now = new Date();
+            $.post("/save", {rows: rows, cols: cols, boxes: boxes, 
+                             author: author, title: title, created: now});
+            boxes = [];
+            $(".times").text("Level saved");
+            $(".times").show();
+        }
     });
     
     redraw();
