@@ -91,8 +91,8 @@ app.use(function(err, req, res, next) {
     });
 });
 
-// bin/www stuff
-// #!/usr/bin/env node
+// Start the server
+ 
 var debug = require('debug')('my-application');
 // var app = require('../app');
 
