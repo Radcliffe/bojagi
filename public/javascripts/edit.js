@@ -217,22 +217,26 @@ $(document).ready(function () {
     
     $("#rows").change(function() {
         var newrows = parseInt($(this).val());
-        if (isNaN(newrows))
-            newrows = 10;
-        if (newrows < rows) clip(newrows, cols);
-        rows = newrows;
-        canvas.setAttribute("height", rows * cellSize + 20);
-        redraw();
+        if (between(newrows, 1, 40)) {
+            if (newrows < rows) clip(newrows, cols);
+            rows = newrows;
+            canvas.setAttribute("height", rows * cellSize + 20);
+            redraw();
+        } else {
+            $(this).val(rows);
+        }
     });
     
     $("#cols").change(function() {
         var newcols = parseInt($(this).val());
-        if (isNaN(newcols))
-            newcols = 10;
-        if (newcols < cols) clip(rows, newcols);
-        cols = newcols;
-        canvas.setAttribute("width", cols * cellSize + 20);
-        redraw();
+        if (between(newcols, 1, 40)) {
+            if (newcols < cols) clip(rows, newcols);
+            cols = newcols;
+            canvas.setAttribute("width", cols * cellSize + 20);
+            redraw();
+        } else {
+            $(this).val(cols);
+        }
     });
     
     $("#author").change(function() {
