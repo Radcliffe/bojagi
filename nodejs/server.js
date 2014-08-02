@@ -91,5 +91,15 @@ app.use(function(err, req, res, next) {
     });
 });
 
+// bin/www stuff
+// #!/usr/bin/env node
+var debug = require('debug')('my-application');
+// var app = require('../app');
+
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
 
 module.exports = app;
