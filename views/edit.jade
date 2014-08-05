@@ -3,11 +3,11 @@ extends layout
 block content
       form
       | Rows: &nbsp;
-      input#rows(placeholder='10', size='3')
+      input#rows(placeholder='10', size='3', maxlength='2')
       | &nbsp; &nbsp; &nbsp; Columns: &nbsp;
-      input#cols(placeholder='10', size='3')
+      input#cols(placeholder='10', size='3', maxlength='2')
       | &nbsp; &nbsp; &nbsp; Author: &nbsp;
-      input#author(placeholder='Anonymous', size='12', maxlength='23')
+      input#author(placeholder='Anonymous', size='12', maxlength='24')
       | &nbsp; &nbsp; &nbsp; Title: &nbsp;
       input#title(placeholder='No title', size='16', maxlength='32')
       br
