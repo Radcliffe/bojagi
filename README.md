@@ -34,10 +34,26 @@ You can also install Bojagi using Docker. The commands are as follows:
     $ docker build -t bojagi-app .
     $ docker run -p 5000:5000 -d bojagi-app
 
+## Database setup
+
+The application requires a Mongo database named 'bojagi'. You can load
+5855 user-created levels into the database as follows:
+
+    $ gunzip dump.js.gz
+    $ mongo bojagi dump.js
+
+If you do not wish to load the user-created levels, then you must initialize
+the 'counter' collection, which keeps track of the last assigned id number
+for the levels. Enter the following commands:
+
+    $ mongo bojagi
+    > db.counters.insert({_id: "levels", seq: 0})
+    > quit()
+
 ## Contribute to this project
 
 I need your help to make this project better. Contact me if you
 would like to contribute. Newbies are welcome!
 
-   David Radcliffe
-   dradcliffe@gmail.com
+    David Radcliffe
+    dradcliffe@gmail.com

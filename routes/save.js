@@ -3,10 +3,52 @@
 
 var express = require('express');
 var router = express.Router();
-
+var Filter = require('bad-words'),
+    filter = new Filter();
 var db;
 
+var colornames = [
+            'lightblue',
+            'mediumorchid',
+            'mediumpurple',
+            'mediumseagreen',
+            'gold',
+            'mediumspringgreen',
+            'chocolate',
+            'mediumvioletred'];
+
+function validate_level(level) {
+    let {rows, cols, boxes, author, title, created} = level;
+    if (isNaN(rows) || rows < 1 || rows > 40) return false;
+    if (isNaN(cols) || cols < 1 || cols > 40) return false;
+    if (author.length > 24 || title.length > 32) return false;
+    if (isNaN(Date.parse(created))) return false;
+    if (!Array.isArray(boxes) || boxes.length == 0 || boxes.length >= 1600) return false;
+
+    for (let i = 0; i < boxes.length; i++) {
+        let {color, left, right, top, bottom, label, x, y} = boxes[i];
+        let valid = (colornames.indexOf(color) > -1)
+            && (left == parseInt(left)) && (right == parseInt(right))
+            && (top == parseInt(top)) && (bottom == parseInt(bottom))
+            && (x == parseInt(x)) && (y == parseInt(y))
+            && (0 <= left) && (left <= x) && (x <= right) && (right < cols)
+            && (0 <= top) && (top <= y) && (y <= bottom) && (bottom < rows)
+            && (label == (right - left + 1) * (bottom - top + 1));
+        if (!valid) return false;
+        // Check for collisions.
+        for (let j = 0; j < i; j++) {
+            let b = boxes[j];
+            if (left <= b.right && right <= b.left
+                && top <= b.bottom && bottom <= b.top)
+                    return false;
+        }
+    }
+    return true;
+}
+
+
 function getNextSequence(newdoc) {
+    if (!validate_level(newdoc)) return;
     db.counters.findAndModify(
         {
             query: { _id: 'levels' },
@@ -23,13 +65,12 @@ function getNextSequence(newdoc) {
 /* Save new level in MongoDB database. */
 router.post('/', function(req, res) {
     db = req.db;
-    var newdoc = {};
+    let newdoc = {};
     newdoc.rows = parseInt(req.body.rows);
     newdoc.cols = parseInt(req.body.cols);
     newdoc.boxes = req.body.boxes;
-    newdoc.author = req.body.author;
-    newdoc.title = req.body.title;
-    newdoc.author = req.body.author;
+    newdoc.author = filter.clean(req.body.author);
+    newdoc.title = filter.clean(req.body.title);
     newdoc.created = req.body.created;
     if (typeof(newdoc.boxes) == 'string')
         newdoc.boxes = JSON.parse(newdoc.boxes);

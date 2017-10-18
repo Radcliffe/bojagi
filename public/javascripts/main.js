@@ -208,6 +208,7 @@ $(document).ready(function () {
         }
         $(".times").text("Congratulations!");
         $(".times").show();
+        $("#canvas").off("mousedown");
         return true;
     }
     
