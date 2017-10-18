@@ -32,7 +32,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB configuration
 var mongojs = require('mongojs');
-// var connection_string = '127.0.0.1:27017/bojagi';
 var db_name = 'bojagi';
 
 //provide a sensible default for local development
@@ -42,6 +41,7 @@ var mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + db_name;
 if(process.env.MONGODB_DB_URL){
   mongodb_connection_string = process.env.MONGODB_DB_URL + db_name;
 }
+
 var db = mongojs(mongodb_connection_string, ['levels', 'counters']);
 
 // Make our db accessible to our router

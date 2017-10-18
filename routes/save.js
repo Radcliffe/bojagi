@@ -18,15 +18,18 @@ var colornames = [
             'mediumvioletred'];
 
 function validate_level(level) {
+    console.log('validate_level');
     let {rows, cols, boxes, author, title, created} = level;
     if (isNaN(rows) || rows < 1 || rows > 40) return false;
     if (isNaN(cols) || cols < 1 || cols > 40) return false;
     if (author.length > 24 || title.length > 32) return false;
+    console.log('checkpoint 1');
     if (isNaN(Date.parse(created))) return false;
     if (!Array.isArray(boxes) || boxes.length == 0 || boxes.length >= 1600) return false;
-
+    console.log('checkpoint 2');
     for (let i = 0; i < boxes.length; i++) {
         let {color, left, right, top, bottom, label, x, y} = boxes[i];
+        console.log(JSON.stringify(boxes[i]));
         let valid = (colornames.indexOf(color) > -1)
             && (left == parseInt(left)) && (right == parseInt(right))
             && (top == parseInt(top)) && (bottom == parseInt(bottom))
@@ -38,11 +41,14 @@ function validate_level(level) {
         // Check for collisions.
         for (let j = 0; j < i; j++) {
             let b = boxes[j];
-            if (left <= b.right && right <= b.left
-                && top <= b.bottom && bottom <= b.top)
+            if ((left <= b.right) && (b.left <= right)
+                && (top <= b.bottom) && (b.top <= bottom)) {
+                    console.log('Collision with ' + j);
                     return false;
+}
         }
     }
+    console.log('level is valid!');
     return true;
 }
 
