@@ -1,8 +1,43 @@
-bojagi
+Bojagi
 ======
 
-This is a puzzle game somewhat reminiscent of Nurikabe. The game displays a 
-rectangular grid, some of whose cells contain numbers.
-The object is to cover all of the numbers with non-overlapping rectangles so 
-that each rectangle covers exactly one number. The number
-must be the area of the rectangle that covers it.
+Bojagi is a game of visual reasoning and basic mathematics. Young students can use the game to practice their multiplication facts, and they can create their own levels to challenge their friends. Older students and adults can exercise their creativity by creating fiendishly difficult puzzles.
+
+A bojagi is a Korean traditional wrapping cloth. They were often made by sewing pieces together like a patchwork quilt. I picked this name because the completed designs sometimes resemble a patchwork.
+
+Bojagi is very similar to the game Rectangles by Simon Tatham, but it
+was developed independently.
+
+This game has been used in elementary schools, and students have created
+nearly 6000 levels. The website is currently offline, but it will be back soon.
+
+## Installation
+
+This application requires Node.js, npm, and Mongo DB.
+By default, the application connects to the database without a password.
+In a production environment, you can set the environment variable
+``MONGODB_DB_URL`` to specify a connection string, which can include
+a password.
+
+Once the required software has been installed, enter the following
+commands in the project root directory:
+
+    $ npm install
+    $ npm start
+
+Open your web browser and enter ``localhost:5000`` in the address bar.
+
+## Docker installation
+
+You can also install Bojagi using Docker. The commands are as follows:
+
+    $ docker build -t bojagi-app .
+    $ docker run -p 5000:5000 -d bojagi-app
+
+## Contribute to this project
+
+I need your help to make this project better. Contact me if you
+would like to contribute. Newbies are welcome!
+
+   David Radcliffe
+   dradcliffe@gmail.com
