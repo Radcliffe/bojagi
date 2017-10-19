@@ -18,22 +18,25 @@ var colornames = [
             'mediumvioletred'];
 
 function validate_level(level) {
-    console.log('validate_level');
     let {rows, cols, boxes, author, title, created} = level;
+    rows = parseInt(rows);
+    cols = parseInt(cols);
     if (isNaN(rows) || rows < 1 || rows > 40) return false;
     if (isNaN(cols) || cols < 1 || cols > 40) return false;
     if (author.length > 24 || title.length > 32) return false;
-    console.log('checkpoint 1');
     if (isNaN(Date.parse(created))) return false;
     if (!Array.isArray(boxes) || boxes.length == 0 || boxes.length >= 1600) return false;
-    console.log('checkpoint 2');
+
     for (let i = 0; i < boxes.length; i++) {
         let {color, left, right, top, bottom, label, x, y} = boxes[i];
-        console.log(JSON.stringify(boxes[i]));
+        left = parseInt(left);
+        right = parseInt(right);
+        top = parseInt(top);
+        bottom = parseInt(bottom);
+        x = parseInt(x);
+        y = parseInt(y);
+        label = parseInt(label);
         let valid = (colornames.indexOf(color) > -1)
-            && (left == parseInt(left)) && (right == parseInt(right))
-            && (top == parseInt(top)) && (bottom == parseInt(bottom))
-            && (x == parseInt(x)) && (y == parseInt(y))
             && (0 <= left) && (left <= x) && (x <= right) && (right < cols)
             && (0 <= top) && (top <= y) && (y <= bottom) && (bottom < rows)
             && (label == (right - left + 1) * (bottom - top + 1));
@@ -43,12 +46,10 @@ function validate_level(level) {
             let b = boxes[j];
             if ((left <= b.right) && (b.left <= right)
                 && (top <= b.bottom) && (b.top <= bottom)) {
-                    console.log('Collision with ' + j);
                     return false;
-}
+                }
         }
     }
-    console.log('level is valid!');
     return true;
 }
 

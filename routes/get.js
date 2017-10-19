@@ -5,13 +5,13 @@
 var express = require('express');
 var router = express.Router();
 
-/* Display a user-created level. */
+/* Return a user-created level in JSON format. */
 router.get('/:id', function(req, res) {
     var id = req.params.id;
     var db = req.db;
     var levels = db.collection('levels');
     db.levels.find({_id: parseInt(id)}, function (err, doc) {
-        res.render('index', {level: doc});
+		res.json(doc[0] || {});
     });
 });
 

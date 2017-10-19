@@ -10,12 +10,12 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 var edit = require('./routes/edit');
 var save = require('./routes/save');
 var show = require('./routes/show');
 var list = require('./routes/list');
 var about = require('./routes/about');
+var get = require('./routes/get');
 
 var app = express();
 
@@ -51,12 +51,12 @@ app.use(function(req,res,next){
 });
 
 app.use('/', routes);
-app.use('/users', users);
 app.use('/edit', edit);
 app.use('/save', save);
 app.use('/show', show);
 app.use('/list', list);
 app.use('/about', about);
+app.use('/get', get);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

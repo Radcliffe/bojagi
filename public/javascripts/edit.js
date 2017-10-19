@@ -1,9 +1,3 @@
-// JSHint directives
-/*jslint node: true */
-/*global console */
-/*global $*/
-/*global document */
-
 "use strict";
 
 $(document).ready(function () {
@@ -151,7 +145,7 @@ $(document).ready(function () {
         rect = canvas.getBoundingClientRect();
         x = limit(Math.floor((e.clientX - rect.left - 10) / cellSize), 0, cols-1);
         y = limit(Math.floor((e.clientY - rect.top - 10) / cellSize), 0, rows-1);        
-        return {x : x, y : y};
+        return {x, y};
     }
     
     
@@ -165,7 +159,6 @@ $(document).ready(function () {
         if ('x' in newbox) drawBox(newbox);
         drawGrid();
         drawLabels();
-        // makeJSON();
     }
     
     function makeJSON() {
@@ -254,9 +247,8 @@ $(document).ready(function () {
     
     $("#save").click(function() {
         if (boxes.length > 0) {
-            var now = new Date();
-            $.post("/save", {rows: rows, cols: cols, boxes: boxes, 
-                             author: author, title: title, created: now});
+            let created = new Date();
+            $.post("/save", {rows, cols, boxes, author, title, created});
             boxes = [];
             $(".times").text("Level saved");
             $(".times").show();
