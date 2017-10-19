@@ -11,6 +11,9 @@ was developed independently.
 This game has been used in elementary schools, and students have created
 nearly 6000 levels. The website is currently offline, but it will be back soon.
 
+Bojagi was the subject of a column by Kevin Knudson on
+[Forbes.com](https://www.forbes.com/sites/kevinknudson/2015/08/02/a-simple-multiplication-game).
+
 ## Installation
 
 This application requires Node.js, npm, and Mongo DB.
@@ -37,7 +40,7 @@ You can also install Bojagi using Docker. The commands are as follows:
 ## Database setup
 
 The application requires a Mongo database named 'bojagi'. You can load
-5855 user-created levels into the database as follows:
+5852 user-created levels into the database as follows:
 
     $ gunzip dump.js.gz
     $ mongo bojagi dump.js
