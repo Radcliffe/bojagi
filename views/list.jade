@@ -1,8 +1,16 @@
 extends layout
 
 block content
-    h1.
-        User-created levels
+    h1 User-created levels
+    .btn-group(role="group")
+        button.btn.btn-secondary(type="button")
+            a(href="/list?offset=50") First
+        button.btn.btn-secondary(type="button")
+            a(href="/list?offset=#{older}") Older
+        button.btn.btn-secondary(type="button")
+            a(href="/list?offset=#{newer}") Newer
+        button.btn.btn-secondary(type="button")
+            a(href="/list?offset=#{seq}") Last
     table#tbl
         tr
             th Id

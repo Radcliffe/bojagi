@@ -8,10 +8,18 @@ var router = express.Router();
 
 /* Display list of user-created levels */
 router.get('/', function(req, res) {
-    var db = req.db;
-    // db.foo.find().sort({_id:1});
-    db.levels.find().sort({_id:-1}).limit(50, function (e, doc) {
-        res.render('list', {levels: doc, list: true});
+    let db = req.db;
+    db.counters.find(function (err, doc) {
+        let seq = doc[0].seq;
+        let offset = parseInt(req.query.offset) || seq;
+        let newer = Math.min(offset + 50, seq);
+        let older = Math.max(offset - 50, 50);
+        db.levels
+          .find({_id: {$lte: offset}})
+          .sort({_id: -1})
+          .limit(50, function (e, levels) {
+             res.render('list', {levels, older, newer, seq});
+          });
     });
 });
 
