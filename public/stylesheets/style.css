@@ -6,6 +6,11 @@ h1 {
 .times {
     font-size: 250%;
     margin-left: 150px;
+    display: none;
+}
+
+.win {
+    display: none;
 }
 
 .page {

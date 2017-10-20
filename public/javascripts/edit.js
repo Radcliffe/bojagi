@@ -7,7 +7,6 @@ $(document).ready(function () {
     var boxCounter = 0;
     var author = 'Anonymous';
     var title = 'No title';
-    $(".times").hide();
     
     var canvas, context, i, boxes, newbox = {}, mouseDown = false;
     canvas = document.getElementById("canvas");
@@ -16,6 +15,33 @@ $(document).ready(function () {
     context = canvas.getContext("2d");
 
     boxes = [];
+    var solve = false;
+
+    function initializeBoxes() {
+        if (typeof(level) === 'undefined') {
+            rows = cols = 10;
+            boxes[0] = {"x": 0, "y": 0, "color": "lightblue", "label": 30};
+            boxes[1] = {"x": 7, "y": 3, "color": "mediumorchid", "label": 20};
+            boxes[2] = {"x": 5, "y": 4, "color":"mediumpurple", "label": 4};
+            boxes[3] = {"x": 7, "y": 9, "color":"mediumseagreen", "label": 18};
+            boxes[4] = {"x": 4, "y": 6, "color":"gold", "label": 28};
+        } else {
+            rows = parseInt(level[0].rows);
+            cols = parseInt(level[0].cols);
+            boxes = level[0].boxes;
+        }
+        canvas.setAttribute("height", rows * cellSize + 20);
+        canvas.setAttribute("width", cols * cellSize + 20);
+        for (i = 0; i < boxes.length; i++) {
+            var box = boxes[i];
+            box.left = box.right = box.x = parseInt(box.x);
+            box.top = box.bottom = box.y = parseInt(box.y);
+            box.label = parseInt(box.label);
+            if (box.label == 1) {
+                box.set = true;
+            }
+        }
+    }
     
     function drawGrid() {
         context.fillStyle = "steelblue";
@@ -51,7 +77,7 @@ $(document).ready(function () {
     
     function drawBoxes() {
         var i;
-        for (i = 0; i < boxes.length; i += 1)
+        for (i = 0; i < boxes.length; i++)
             drawBox(boxes[i]);
     }
     
@@ -86,8 +112,8 @@ $(document).ready(function () {
         }
         boxes = newboxes;
     }
-    
-    function validate(box) {
+
+    function validate_edit(box) {
         var index = -1;
         var i, j;
         
@@ -116,6 +142,59 @@ $(document).ready(function () {
         return true;
     }
     
+    function validate_solve(box) {
+        var index = -1;
+        var i, j;
+        
+        // Search for unique label inside box
+        for (i = 0; i < boxes.length; i++) {
+            if (between(boxes[i].x, box.left, box.right) &&
+            between(boxes[i].y, box.top, box.bottom)) {
+                if (index !== -1) {
+                    return false;
+                }
+                index = i;
+            }
+        }
+        if (index == -1) {
+            return false;
+        }
+        
+        // Check area
+        if (boxes[index].label != (box.right - box.left + 1) *
+                                  (box.bottom - box.top + 1)) {
+            reset(boxes[index]);
+            return false;
+        }
+        
+        // Check collision
+        for (i = 0; i < boxes.length; i++) {
+            if (i != index && 
+                box.right >= boxes[i].left && 
+                boxes[i].right >= box.left && 
+                box.bottom >= boxes[i].top && 
+                boxes[i].bottom >= box.top) {
+                    reset(boxes[index]);
+                    return false;
+            }
+        }
+        
+        boxes[index].left = box.left;
+        boxes[index].right = box.right;
+        boxes[index].top = box.top;
+        boxes[index].bottom = box.bottom;
+        boxes[index].set = true;
+        return true;
+    }
+
+    function validate(box) {
+        if (solve) {
+            validate_solve(box);
+        } else {
+            validate_edit(box);
+        }
+    }
+
     function area(box) {
         return (box.bottom - box.top + 1) * (box.right - box.left + 1);
     }
@@ -159,6 +238,8 @@ $(document).ready(function () {
         if ('x' in newbox) drawBox(newbox);
         drawGrid();
         drawLabels();
+        if (solve && !mouseDown)
+            checkWin();
     }
     
     function makeJSON() {
@@ -169,6 +250,19 @@ $(document).ready(function () {
         $("#json").text('level = ' + JSON.stringify(j) + ';');
     }
     
+    function checkWin() {
+        var i;
+        for (i = 0; i < boxes.length; i++) {
+            if (!boxes[i].set) {
+                $(".times").hide();
+                return false;
+            }
+        }
+        $(".times").text("Congratulations!");
+        $(".times").show();
+        $("#canvas").off("mousedown");
+        return true;
+    }
     // Event Listeners
     
     $("#canvas").on("mousedown", function (e) {
@@ -255,6 +349,9 @@ $(document).ready(function () {
         }
     });
     
+    if (solve) {
+        initializeBoxes();
+    }
     redraw();
 
 });

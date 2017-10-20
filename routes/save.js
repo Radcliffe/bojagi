@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var Filter = require('bad-words'),
     filter = new Filter();
+filter.removeWords('title');
 var db;
 
 var colornames = [

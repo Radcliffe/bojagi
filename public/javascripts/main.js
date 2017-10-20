@@ -1,20 +1,10 @@
-// JSHint directives
-/*jslint node: true */
-/*global console */
-/*global $*/
-/*global document */
-/*global level */
-
 "use strict";
 
 $(document).ready(function () {
     var rows = 16;
     var cols = 16;
     var cellSize = 30;
-    
-    $(".win").hide();
-    $(".times").hide();
-    
+
     var canvas, context, i, boxes, newbox = {}, mouseDown = false;
     canvas = document.getElementById("canvas");
     canvas.setAttribute("height", rows * cellSize + 20);
@@ -58,20 +48,7 @@ $(document).ready(function () {
             }
         }
     }
-    
-    function getColor(i) {
-        var colornames = [
-            'lightblue',
-            'mediumorchid',
-            'mediumpurple',
-            'mediumseagreen',
-            'gold',
-            'mediumspringgreen',
-            'chocolate',
-            'mediumvioletred'];
-        return colornames[i % colornames.length];
-    }
-    
+
     function drawBox(box) {
         context.fillStyle = box.color;
         context.fillRect(13 + box.left * cellSize, 
@@ -91,8 +68,6 @@ $(document).ready(function () {
         context.fillStyle = "black";
         context.font = "16px Arial";
         var textWidth = context.measureText(box.label).width;
-        var x = 12 + cellSize * (box.x + 0.5) - textWidth / 2;
-        var y = 18 + cellSize + (box.y * 0.5);
         context.fillText(box.label, 12 + cellSize * (box.x + 0.5) - textWidth / 2, 
                          18 + cellSize * (box.y + 0.5));
     }
