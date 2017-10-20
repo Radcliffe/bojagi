@@ -1,22 +1,27 @@
 // JSHint directives
 /*jslint node: true */
 
-var express = require('express');
-var router = express.Router();
-var Filter = require('bad-words'),
-    filter = new Filter();
-filter.removeWords('title');
-var db;
-
-var colornames = [
-            'lightblue',
-            'mediumorchid',
-            'mediumpurple',
-            'mediumseagreen',
-            'gold',
-            'mediumspringgreen',
-            'chocolate',
-            'mediumvioletred'];
+var express = require('express'),
+    router = express.Router(),
+    filter = require('leo-profanity'),
+    db,
+    colornames = [
+        'lightblue',
+        'mediumorchid',
+        'mediumpurple',
+        'mediumseagreen',
+        'gold',
+        'mediumspringgreen',
+        'chocolate',
+        'mediumvioletred'],
+    boxAttributes = [
+        'left',
+        'right',
+        'bottom',
+        'top',
+        'x',
+        'y',
+        'label'];
 
 function validate_level(level) {
     let {rows, cols, boxes, author, title, created} = level;
@@ -29,19 +34,16 @@ function validate_level(level) {
     if (!Array.isArray(boxes) || boxes.length == 0 || boxes.length >= 1600) return false;
 
     for (let i = 0; i < boxes.length; i++) {
+        boxAttributes.forEach(function (attr) {
+            boxes[i][attr] = parseInt(boxes[i][attr]);
+        });
         let {color, left, right, top, bottom, label, x, y} = boxes[i];
-        left = parseInt(left);
-        right = parseInt(right);
-        top = parseInt(top);
-        bottom = parseInt(bottom);
-        x = parseInt(x);
-        y = parseInt(y);
-        label = parseInt(label);
         let valid = (colornames.indexOf(color) > -1)
             && (0 <= left) && (left <= x) && (x <= right) && (right < cols)
             && (0 <= top) && (top <= y) && (y <= bottom) && (bottom < rows)
             && (label == (right - left + 1) * (bottom - top + 1));
         if (!valid) return false;
+
         // Check for collisions.
         for (let j = 0; j < i; j++) {
             let b = boxes[j];
