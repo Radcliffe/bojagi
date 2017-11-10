@@ -265,6 +265,48 @@ $(document).ready(function () {
     }
     // Event Listeners
     
+        $("#canvas").on("touchstart", function (te) {
+     te.preventDefault();
+     var e={'clientX':te.touches[0].pageX, 'clientY':te.touches[0].pageY};
+     if (!mouseDown) {   
+       mouseDown = true;
+       var pos = getMousePos(canvas, e);
+       newbox = {};
+       newbox.x = newbox.left = newbox.right = pos.x;
+       newbox.y = newbox.top = newbox.bottom = pos.y;
+       newbox.color = "pink";
+       times(newbox);
+       $(".times").show();
+       redraw();
+     }
+   });
+    
+    $("#canvas").on("touchmove", function (te) {
+     te.preventDefault();
+     var e={'clientX':te.touches[0].pageX, 'clientY':te.touches[0].pageY};
+     if (mouseDown) {
+       var pos = getMousePos(canvas, e);
+       newbox.right = Math.max(newbox.x, pos.x);
+       newbox.left = Math.min(newbox.x, pos.x);
+       newbox.top = Math.min(newbox.y, pos.y);
+       newbox.bottom = Math.max(newbox.y, pos.y);
+       times(newbox);
+       redraw();
+     }
+   });
+    
+    $("#canvas").on("touchend", function (te) {
+     te.preventDefault();
+     if (mouseDown) {
+       mouseDown = false;
+       validate(newbox);
+       newbox = { };
+       $(".times").hide();
+       redraw();
+       
+     }
+   });
+
     $("#canvas").on("mousedown", function (e) {
         if (!mouseDown) {   
             mouseDown = true;
