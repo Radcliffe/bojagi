@@ -1,9 +1,5 @@
 "use strict";
 
-$(document).on('scroll', function() {
-  $(document).scrollLeft(0);
-});
-
 $(document).ready(function () {
     var rows = 10;
     var cols = 10;
@@ -270,7 +266,6 @@ $(document).ready(function () {
     // Event Listeners
     
     $("#canvas").on("mousedown", function (e) {
-        e.preventDefault();
         if (!mouseDown) {   
             mouseDown = true;
             var pos = getMousePos(canvas, e);
@@ -285,7 +280,6 @@ $(document).ready(function () {
     });
     
     $("#canvas").on("mousemove", function (e) {
-        e.preventDefault();
         if (mouseDown) {
             var pos = getMousePos(canvas, e);
             newbox.right = Math.max(newbox.x, pos.x);
@@ -298,7 +292,6 @@ $(document).ready(function () {
     });
     
     $("#canvas").on("mouseup", function (e) {
-        e.preventDefault();
         if (mouseDown) {
             mouseDown = false;
             validate(newbox);
