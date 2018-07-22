@@ -6,15 +6,16 @@
     "start": "node server"
   },
   "dependencies": {
-    "body-parser": "~1.0.0",
-    "cookie-parser": "~1.0.1",
-    "debug": "~0.7.4",
-    "express": "~4.0.0",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
     "jade": "^1.11.0",
     "jstransformer": "^1.0.0",
     "leo-profanity": "^1.2.4",
-    "mongojs": "^2.4.1",
+    "mongojs": "^2.6.0",
     "morgan": "~1.0.0",
-    "serve-favicon": "^2.4.5"
+    "serve-favicon": "^2.5.0",
+    "uglify-js": "^3.4.5"
   }
 }
