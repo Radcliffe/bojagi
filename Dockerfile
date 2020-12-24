@@ -1,11 +1,8 @@
-FROM mhart/alpine-node:latest
-ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app/
-
-WORKDIR /opt/app
-ADD . /opt/app
-
-EXPOSE 5000
-
-CMD ["npm", "start"]
+FROM node:latest
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY package.json /usr/src/app/
+RUN npm install
+COPY . /usr/src/app
+EXPOSE 3000
+CMD [ "npm", "start"]
