@@ -6,11 +6,11 @@ block content
         button.btn.btn-secondary(type="button")
             a(href="/list?offset=50") First
         button.btn.btn-secondary(type="button")
-            a(href="/list?offset=#{older}") Older
+            a(href="/list?offset=" + older) Older
         button.btn.btn-secondary(type="button")
-            a(href="/list?offset=#{newer}") Newer
+            a(href="/list?offset=" + newer) Newer
         button.btn.btn-secondary(type="button")
-            a(href="/list?offset=#{seq}") Last
+            a(href="/list?offset=" + seq) Last
     table#tbl
         tr
             th Id
@@ -20,7 +20,7 @@ block content
             th Columns
         each level, i in levels
             tr
-                td: a(href="/show/#{level._id}") #{level._id}
+                td: a(href="/show/" + level._id) #{level._id}
                 td= level.author
                 td= level.title
                 td= level.rows
