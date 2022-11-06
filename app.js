@@ -2,22 +2,20 @@
 /*jslint node: true */
 
 
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-
-var routes = require('./routes/index');
-var edit = require('./routes/edit');
-var save = require('./routes/save');
-var show = require('./routes/show');
-var list = require('./routes/list');
-var about = require('./routes/about');
-var get = require('./routes/get');
-
-var app = express();
+const express = require('express'),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    routes = require('./routes/index'),
+    edit = require('./routes/edit'),
+    save = require('./routes/save'),
+    show = require('./routes/show'),
+    list = require('./routes/list'),
+    about = require('./routes/about'),
+    get = require('./routes/get'),
+    app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -60,7 +58,7 @@ app.use('/get', get);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    const err = new Error('Not Found');
     err.status = 404;
     next(err);
 });

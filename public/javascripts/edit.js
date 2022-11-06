@@ -340,9 +340,28 @@ $(document).ready(function () {
     });
     
     $("#save").click(function() {
-        if (boxes.length > 0) {
-            let created = new Date();
-            $.post("/save", {rows, cols, boxes, author, title, created});
+        if (boxes.length) {
+            const settings = {
+                "url": "/save",
+                "method": "POST",
+                "timeout": 60,
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                "data": {
+                    "rows": rows,
+                    "cols": rows,
+                    "boxes": JSON.stringify(boxes),
+                    "author": author,
+                    "title": title,
+                    "created": new Date()
+                }
+            };
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+
             boxes = [];
             $(".times").text("Level saved");
             $(".times").show();
